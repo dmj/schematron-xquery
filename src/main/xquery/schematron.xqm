@@ -23,13 +23,13 @@ declare function schematron:validate ($node as node(), $schema as element(sch:sc
   )
 };
 
-declare function schematron:check-patterns ($env as map(*), $patterns as element(sch:pattern)*) as element()* {
+declare function schematron:check-patterns ($env as map(*)+, $patterns as element(sch:pattern)*) as element()* {
   for-each($patterns, function ($pattern as element(sch:pattern)) as element()* {
     schematron:check-pattern($env, $pattern)
   })
 };
 
-declare function schematron:check-pattern ($env as map(*), $pattern as element(sch:pattern)) as element()* {
+declare function schematron:check-pattern ($env as map(*)+, $pattern as element(sch:pattern)) as element()* {
   let $env := schematron:create-environment(env:get-context($env), $pattern/sch:let, (), $env)
   return
     for-each($pattern/sch:rule, function ($rule as element(sch:rule)) as element()* {
